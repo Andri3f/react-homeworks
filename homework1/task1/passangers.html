@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Приклад</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function MyNumber() {
+        const [num, setNum] = React.useState(0)
+        //-----
+        function set0() {
+          setNum(0)
+        }
+        function set1() {
+          setNum(1)
+        }
+        function setRandom() {
+          setNum(Math.random())
+        }
+        //-----
+        return (
+          <div>
+            <p>Поточне значення: {num}</p>
+            <button onClick={set0}>Встановити 0</button>
+            <button onClick={set1}>Set 1</button>
+            <button onClick={setRandom}>Згенерувати</button>
+          </div>
+        )
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(<MyNumber />)
+    </script>
+  </body>
+</html>
