@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uk">
+	<head>
+		<meta charset="UTF-8" />
+		<title>React Приклад</title>
+		<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	</head>
+	<!--==============================================================================================================-->
+	<!--Задача 3. Задано початок та кінець діапазону. При натисканні на кнопку випадковим чином генерувати значення з вказаного діапазону та відображати його.-->
+	<!--==============================================================================================================-->
+	<body>
+		<div id="root"></div>
+		<script type="text/babel">
+			const diapasonData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+			function Diapsone() {
+				const [randomValue, setRandomValue] = React.useState(null)
+				function getRandomValue() {
+					const randomIndex = Math.floor(Math.random() * diapasonData.length)
+					setRandomValue(diapasonData[randomIndex])
+				}
+				return (
+					<div>
+						<span>{randomValue}</span>
+						<button onClick={getRandomValue}>push to get data fron diapason (1- 10)</button>
+						<hr />
+						<div>
+							<p>random value: {randomValue}</p>
+						</div>
+					</div>
+				)
+			}
+
+			const root = ReactDOM.createRoot(document.getElementById("root"))
+			root.render(<Diapsone />)
+		</script>
+	</body>
+</html>

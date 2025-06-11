@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uk">
+	<head>
+		<meta charset="UTF-8" />
+		<title>React Приклад</title>
+		<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	</head>
+	<!--Задача 5. Додаток містить масив об’єктів (логін, пароль) --  існуючі логіни і паролі. Користувач вводить логін і пароль, а програма при натисненні на кнопку повідомляє чи може користувач бути авторизованим.-->
+
+	<body>
+		<div id="root"></div>
+		<script type="text/babel">
+			const usersData = [
+				{ login: "admin", password: "12345" },
+				{ login: "user", password: "12345" },
+				{ login: "user2", password: "12345" },
+			]
+			function Login() {
+				const [userData, setUserData] = React.useState({
+					login: "",
+					password: "",
+				})
+				function onUserDataChange(e, key) {
+					setUserData({ ...userData, [key]: e.target.value })
+				}
+				function onLogin() {
+					const user = usersData.find((user) => user.login === userData.login && user.password === userData.password)
+					if (user) {
+						alert("Login successful")
+						setUserData({ login: "", password: "" })
+					} else {
+						alert("Login failed")
+					}
+				}
+				return (
+					<div>
+						<input type="text" value={userData.login} onChange={(e) => onUserDataChange(e, "login")} placeholder="login" />
+						<input type="password" value={userData.password} onChange={(e) => onUserDataChange(e, "password")} placeholder="password" />
+						<button onClick={onLogin}>Login</button>
+					</div>
+				)
+			}
+			const root = ReactDOM.createRoot(document.getElementById("root"))
+			root.render(<Login />)
+		</script>
+	</body>
+</html>

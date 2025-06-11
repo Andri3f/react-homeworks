@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="uk">
+	<head>
+		<meta charset="UTF-8" />
+		<title>React Приклад</title>
+		<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	</head>
+	<!--==============================================================================================================-->
+	<!--Задача 4. "Рахунок у банку"
+Вимоги:
+1) Спочатку сума дорівнює 0грн. Змінити суму у гривнях можна або зарахуванням на рахунок, або зняттям.
+2) Сума автоматично переводиться у долари та євро (фіксований курс задається у data).
+3) можливість зарахувати суму (контролювати, щоб не була від'ємною)
+4) можливість зняти (щоб не можна зняти більше ніж є на рахунку)
+5) при виконанні зняття і зарахування коштів вираховувати 3% від суми (відображати кількість відсотків автоматично)
+
+При зміні суми :
+- якщо було зняття, то суму відображати червоним
+- якщо було зарахування, то суму відображати зеленим
+Якщо сума валюти менша за 100 то відображати червоним кольором, інакше - зеленим-->
+
+	<!--==============================================================================================================-->
+	<body>
+		<div id="root"></div>
+		<script type="text/babel">
+			const data = {
+				dollarToGrnRate: 41.5,
+				eurToGrnRate: 47.5,
+				grnToDollarRate: 0.024,
+				grnToEurRate: 0.021,
+				percentForOperations: 3,
+			}
+
+			function Bank() {
+				const [depositSum, setDepositSum] = React.useState(0)
+				const [withdrawSum, setWithdrawSum] = React.useState(0)
+				const [userData, setUserData] = React.useState({
+					grn: 0,
+					dollar: 0,
+					eur: 0,
+				})
+				const [lastOperation, setLastOperation] = React.useState(null)
+				const sumForOperations = ((depositSum || withdrawSum) * data.percentForOperations) / 100
+
+				function handleDepositChange(e) {
+					setDepositSum(e.target.value)
+				}
+
+				function handleWithdrawChange(e) {
+					setWithdrawSum(e.target.value)
+				}
+
+				function addMoney() {
+					if (depositSum > 0) {
+						setUserData((prev) => ({
+							...prev,
+							grn: prev.grn + (depositSum - sumForOperations),
+							dollar: prev.dollar + (depositSum - sumForOperations) / data.dollarToGrnRate,
+							eur: prev.eur + (depositSum - sumForOperations) / data.eurToGrnRate,
+						}))
+						setLastOperation("add")
+						setDepositSum(0)
+					} else {
+						alert("Sum must be greater than 0")
+					}
+				}
+
+				function withdrawMoney() {
+					if (withdrawSum > 0 && withdrawSum <= userData.grn) {
+						setUserData((prev) => ({
+							...prev,
+							grn: prev.grn - (withdrawSum - sumForOperations),
+							dollar: prev.dollar - (withdrawSum - sumForOperations) / data.dollarToGrnRate,
+							eur: prev.eur - (withdrawSum - sumForOperations) / data.eurToGrnRate,
+						}))
+						setLastOperation("withdraw")
+						setWithdrawSum(0)
+					} else {
+						alert("Sum must be greater than 0 and less than sum on account")
+					}
+				}
+
+				const getAmountColor = (amount) => {
+					return amount < 100 ? "red" : "green"
+				}
+
+				const getOperationColor = () => {
+					return lastOperation === "add" ? "green" : lastOperation === "withdraw" ? "red" : "black"
+				}
+
+				return (
+					<div>
+						<div style={{ color: getOperationColor() }}>Sum on account: {userData.grn}₴</div>
+						<div>
+							Set sum on account <input type="number" value={depositSum} onChange={handleDepositChange} /> <button onClick={addMoney}>add</button>{" "}
+						</div>
+						<div>
+							Get sum from account <input type="number" value={withdrawSum} onChange={handleWithdrawChange} /> <button onClick={withdrawMoney}>withdraw</button>{" "}
+						</div>
+						<hr />
+						<div>Sum for operations: {sumForOperations}</div>
+						<div style={{ color: getAmountColor(userData.dollar) }}>Sum in dollars: {userData.dollar.toFixed(2)}$</div>
+						<div style={{ color: getAmountColor(userData.eur) }}>Sum in euros: {userData.eur.toFixed(2)}€</div>
+					</div>
+				)
+			}
+
+			const root = ReactDOM.createRoot(document.getElementById("root"))
+			root.render(<Bank />)
+		</script>
+	</body>
+</html>

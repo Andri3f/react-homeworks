@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+	<head>
+		<meta charset="UTF-8" />
+		<title>React Приклад</title>
+		<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	</head>
+	<!--Задача 2. Вводиться номер місяця. Автоматично виводити рекомендований одяг (зима – пальто, літо – шорти ….). Також автоматично виводити зображення з відповідним зображенням лісу (зима – ліс зі снігом, осінь – жовтий ліс, …).-->
+
+	<body>
+		<div id="root"></div>
+		<script type="text/babel">
+			const seasonsData = [
+				{
+					name: "winter",
+					months: [12, 1, 2],
+					clothes: "jacket",
+					imgSrc: "https://photographers.ua/thumbnails/pictures/34468/800xdsc_6426.jpg",
+				},
+				{
+					name: "spring",
+					months: [3, 4, 5],
+					clothes: "coat",
+					imgSrc: "https://content2.rozetka.com.ua/goods/images/base_action/17925313.jpg",
+				},
+				{
+					name: "summer",
+					months: [6, 7, 8],
+					clothes: "shorts",
+					imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0u3Ne7hCj3NoZ-9RW4MSFcONOusuJUXjnMg&s",
+				},
+				{
+					name: "autumn",
+					months: [9, 10, 11],
+					clothes: "sweater",
+					imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPhicGtD4DV_BROtI8RhwwTqt6gqXLUWMB1Q&s",
+				},
+			]
+			function Seasons() {
+				const [month, setMonth] = React.useState(1)
+				function onMonthChange(e) {
+					const value = e.target.value
+					setMonth(value)
+				}
+				// ехх не хватає computend властивсоті тут з  VUE ))
+				const season = seasonsData.find((season) => season.months.includes(Number(month)))
+				return (
+					<div>
+						enter month
+						<input type="number" placeholder="enter month" value={month} onChange={onMonthChange} min="1" max="12" />
+						<hr />
+						<div>
+							{season && (
+								<React.Fragment>
+									<img src={season.imgSrc} alt={season.name} width="200" height="200" />
+									<p>clothes: {season.clothes}</p>
+									<p>season: {season.name}</p>
+								</React.Fragment>
+							)}
+						</div>
+					</div>
+				)
+			}
+			const root = ReactDOM.createRoot(document.getElementById("root"))
+			root.render(<Seasons />)
+		</script>
+	</body>
+</html>
