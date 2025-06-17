@@ -1,0 +1,30 @@
+.container {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.select {
+	padding: 8px;
+	margin: 10px 0;
+	min-width: 200px;
+}
+
+.imageContainer {
+	margin-top: 20px;
+
+	img {
+		max-width: 400px;
+		height: auto;
+	}
+}
+
+.correct {
+	color: green;
+	font-weight: bold;
+}
+
+.incorrect {
+	color: red;
+	font-weight: bold;
+}
