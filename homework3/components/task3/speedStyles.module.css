@@ -1,0 +1,13 @@
+.orange {
+	color: orange;
+}
+.green {
+	color: green;
+}
+.red {
+	color: red;
+}
+.hideWarning {
+	opacity: 0;
+	visibility: hidden;
+}
