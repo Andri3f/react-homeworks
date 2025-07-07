@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef } from "react"
+import StartForm from "./StartForm"
+import AnswerInput from "./AnswerInput"
+import ResultsSection from "./ResultsSection"
+
 const secondsBetweenTasks = 10
 function AdditionSlimulator() {
 	const [tasksCount, setTasksCount] = useState(0)
@@ -99,39 +103,9 @@ function AdditionSlimulator() {
 			</h5>
 
 			<hr />
-			<div>
-				<input type="number" value={tasksCount} onChange={(e) => setTasksCount(e.target.value)} />
-				<button onClick={startGame}>Старт</button>
-			</div>
-			<div>
-				{isGameStarted && (
-					<div>
-						<input type="number" value={userAnswer} onChange={(e) => setUserAnswer(e.target.value)} />
-						<button onClick={handleSubmitAnswer}>Відповісти</button>
-					</div>
-				)}
-			</div>
-			<div>
-				{isGameStarted && tasks.length > 0 && (
-					<div>
-						{tasks.map((task) => (
-							<div key={task.id}>
-								{task.firstNumber} + {task.secondNumber}
-							</div>
-						))}
-					</div>
-				)}
-				{!isGameStarted && tasks.length > 0 && (
-					<div>
-						{tasks.map((task) => (
-							<div key={task.id}>
-								{task.firstNumber} + {task.secondNumber} = {task.answer}
-								ваша відповідь: {task.userAnswer} - {task.isUserAnswerCorrect ? "Правильно" : "Неправильно"}
-							</div>
-						))}
-					</div>
-				)}
-			</div>
+			<StartForm tasksCount={tasksCount} setTasksCount={setTasksCount} startGame={startGame} />
+			{isGameStarted && <AnswerInput userAnswer={userAnswer} setUserAnswer={setUserAnswer} handleSubmitAnswer={handleSubmitAnswer} />}
+			{!isGameStarted && tasks.length > 0 && <ResultsSection tasks={tasks} />}
 		</div>
 	)
 }
