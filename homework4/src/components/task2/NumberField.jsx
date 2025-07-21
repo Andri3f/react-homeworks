@@ -1,5 +1,5 @@
 import styles from "./numbers-game.module.css"
-function NumberField({ field }) {
+function NumberField({ numberFields }) {
 	const getCardClass = (numberData) => {
 		if (numberData.isOpen) {
 			return styles.open
@@ -8,7 +8,7 @@ function NumberField({ field }) {
 	}
 	return (
 		<div className={styles.fields}>
-			{field.map((numberData) => (
+			{numberFields.map((numberData) => (
 				<div className={`${styles.field} ${getCardClass(numberData)}`} key={numberData.index}>
 					{numberData.isOpen && <span>{numberData.number}</span>}
 				</div>

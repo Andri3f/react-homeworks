@@ -33,6 +33,15 @@
 	transform: scale(1.05);
 }
 
+/* GameBoard styles */
+.gameBoard {
+	background-color: #f8f9fa;
+	border-radius: 15px;
+	padding: 25px;
+	margin: 20px 0;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
 /* Player styles */
 .playersContainer {
 	display: grid;
